@@ -48,7 +48,7 @@ savefig("$(pwd())/single_parm_02.png")
 
 println("\nOne parameter case, 3rd case\n")
 sol = solve(prob1,Tsit5(),save_idxs=[1])
-randomized = VectorOfArray([(sol(t[i]) + .01 * randn(1)) for i in 1:length(t)])
+randomized = VectorOfArray([(sol(t[i]) + .2 * randn(1)) for i in 1:length(t)])
 data = convert(Array,randomized)
 priors = [truncated(Normal(1.5,0.1),0,2)]
 bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
