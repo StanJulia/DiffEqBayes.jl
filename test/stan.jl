@@ -1,6 +1,10 @@
 using CmdStan, DiffEqBayes, OrdinaryDiffEq, ParameterizedFunctions,
-      RecursiveArrayTools, Distributions, Test
+      RecursiveArrayTools, Distributions, 
+      Random, Test
 
+cd(@__DIR__)
+
+Random.seed!(123)
 println("\nOne parameter case, 1st case\n")
 f1 = @ode_def begin
   dx = a*x - x*y
@@ -21,7 +25,11 @@ bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
 
 sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1.5 atol=3e-1
-
+#=
+chn=CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
+plot(chn)
+savefig("$(pwd())/single_parm_01.png")
+=#
 
 println("\nOne parameter case, 2nd case\n")
 priors = [Normal(1.,0.1),Normal(1.,0.1),Normal(1.5,0.1)]
@@ -32,6 +40,11 @@ sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1. atol=3e-1
 @test sdf[sdf.parameters .== :theta2, :mean][1] ≈ 1. atol=3e-1
 @test sdf[sdf.parameters .== :theta3, :mean][1] ≈ 1.5 atol=3e-1
+#=
+chn=CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
+plot(chn)
+savefig("$(pwd())/single_parm_02.png")
+=#
 
 println("\nOne parameter case, 3rd case\n")
 sol = solve(prob1,Tsit5(),save_idxs=[1])
@@ -43,7 +56,11 @@ bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
 
 sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1.5 atol=3e-1
-
+#=
+chn=CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
+plot(chn)
+savefig("$(pwd())/single_parm_03.png")
+=#
 
 println("\nOne parameter case, 4th case\n")
 priors = [Normal(1.,0.1),Normal(1.5,0.1)]
@@ -53,6 +70,11 @@ bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
 sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1. atol=3e-1
 @test sdf[sdf.parameters .== :theta2, :mean][1] ≈ 1.5 atol=3e-1
+#=
+chn=CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
+plot(chn)
+savefig("$(pwd())/single_parm_04.png")
+=#
 
 println("\nFour parameter case\n")
 f1 = @ode_def begin
@@ -67,8 +89,8 @@ sol = solve(prob1,Tsit5())
 t = collect(range(1,stop=10,length=10))
 randomized = VectorOfArray([(sol(t[i]) + .01randn(2)) for i in 1:length(t)])
 data = convert(Array,randomized)
-priors = [truncated(Normal(1.5,0.1),0,2),truncated(Normal(1.0,0.1),0,1.5),
-          truncated(Normal(3.0,0.1),0,4),truncated(Normal(1.0,0.1),0,2)]
+priors = [truncated(Normal(1.5,0.5),0,2),truncated(Normal(1.0,0.5),0,1.5),
+          truncated(Normal(3.0,0.5),0,4),truncated(Normal(1.0,0.5),0,2)]
 
 bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,num_warmup=500,vars =(DiffEqBayes.StanODEData(),InverseGamma(4,1)))
 sdf  = CmdStan.read_summary(bayesian_result.model)
@@ -76,3 +98,9 @@ sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta2, :mean][1] ≈ 1.0 atol=1e-1
 @test sdf[sdf.parameters .== :theta3, :mean][1] ≈ 3.0 atol=1e-1
 @test sdf[sdf.parameters .== :theta4, :mean][1] ≈ 1.0 atol=1e-1
+#=
+chn=CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
+plot(chn)
+savefig("$(pwd())/four_parms.png")
+=#
+
