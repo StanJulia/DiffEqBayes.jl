@@ -12,11 +12,11 @@ p = [1.5]
 prob1 = ODEProblem(f1,u0,tspan,p)
 sol = solve(prob1,Tsit5())
 t = collect(range(1,stop=10,length=10))
-randomized = VectorOfArray([(sol(t[i]) + .2randn(2)) for i in 1:length(t)])
+randomized = VectorOfArray([(sol(t[i]) + .5randn(2)) for i in 1:length(t)])
 data = convert(Array,randomized)
-priors = [truncated(Normal(1.0,0.5),0.1,2)]
+priors = [truncated(Normal(0.7,1),0.1,2)]
 
-bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
+bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000, nchains=4,
                                  num_warmup=1000,likelihood=Normal)
 
 sdf  = CmdStan.read_summary(bayesian_result.model)
@@ -63,12 +63,12 @@ p = [1.5,1.0,3.0,1.0]
 prob1 = ODEProblem(f1,u0,tspan,p)
 sol = solve(prob1,Tsit5())
 t = collect(range(1,stop=10,length=10))
-randomized = VectorOfArray([(sol(t[i]) + .01randn(2)) for i in 1:length(t)])
+randomized = VectorOfArray([(sol(t[i]) + .5randn(2)) for i in 1:length(t)])
 data = convert(Array,randomized)
-priors = [truncated(Normal(1.5,0.5),0.1,2),truncated(Normal(1.0,0.5),0.1,1.5),
-          truncated(Normal(3.0,0.5),0.1,4),truncated(Normal(1.0,0.5),0.1,2)]
+priors = [truncated(Normal(1.0,1),0.1,2),truncated(Normal(1.5,0.5),0.1,1.5),
+          truncated(Normal(2.0,1),0.1,4),truncated(Normal(1.3,0.5),0.1,2)]
 
-bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
+bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000, nchains=4,
                                 num_warmup=1000,vars =(DiffEqBayes.StanODEData(),InverseGamma(4,1)))
 sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1.5 atol=1e-1
