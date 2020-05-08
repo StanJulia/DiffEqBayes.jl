@@ -1,0 +1,14 @@
+
+--- Translating Stan model to C++ code ---
+bin/stanc  --o=/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.hpp /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan
+Info: Found int division at '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 3, column 16 to column 39:
+  (max_val - min_val + 1) / 2
+Values will be rounded towards zero.
+Info: Found int division at '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 11, column 20 to column 31:
+  (range + 1) / 2
+Values will be rounded towards zero.
+clang++ -std=c++1y -Wno-unknown-warning-option -Wno-tautological-compare -Wno-sign-compare -D_REENTRANT       -I stan/lib/stan_math/lib/tbb_2019_U8/include -O3 -I src -I stan/src -I lib/rapidjson_1.1.0/ -I stan/lib/stan_math/ -I stan/lib/stan_math/lib/eigen_3.3.7 -I stan/lib/stan_math/lib/boost_1.72.0 -I stan/lib/stan_math/lib/sundials_5.2.0/include    -DBOOST_DISABLE_ASSERTS      -c -MT /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.o -MT /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem -include /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.hpp -include src/cmdstan/main.cpp -MM -E -MG -MP -MF /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.d /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.hpp
+
+--- Compiling, linking C++ code ---
+clang++ -std=c++1y -Wno-unknown-warning-option -Wno-tautological-compare -Wno-sign-compare -D_REENTRANT       -I stan/lib/stan_math/lib/tbb_2019_U8/include -O3 -I src -I stan/src -I lib/rapidjson_1.1.0/ -I stan/lib/stan_math/ -I stan/lib/stan_math/lib/eigen_3.3.7 -I stan/lib/stan_math/lib/boost_1.72.0 -I stan/lib/stan_math/lib/sundials_5.2.0/include    -DBOOST_DISABLE_ASSERTS      -c -include-pch stan/src/stan/model/model_header.hpp.gch -x c++ -o /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.o /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.hpp
+clang++ -std=c++1y -Wno-unknown-warning-option -Wno-tautological-compare -Wno-sign-compare -D_REENTRANT       -I stan/lib/stan_math/lib/tbb_2019_U8/include -O3 -I src -I stan/src -I lib/rapidjson_1.1.0/ -I stan/lib/stan_math/ -I stan/lib/stan_math/lib/eigen_3.3.7 -I stan/lib/stan_math/lib/boost_1.72.0 -I stan/lib/stan_math/lib/sundials_5.2.0/include    -DBOOST_DISABLE_ASSERTS            -Wl,-L,"/Users/rob/Projects/StanSupport/cmdstan/stan/lib/stan_math/lib/tbb" -Wl,-rpath,"/Users/rob/Projects/StanSupport/cmdstan/stan/lib/stan_math/lib/tbb"  /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.o src/cmdstan/main.o         stan/lib/stan_math/lib/sundials_5.2.0/lib/libsundials_nvecserial.a stan/lib/stan_math/lib/sundials_5.2.0/lib/libsundials_cvodes.a stan/lib/stan_math/lib/sundials_5.2.0/lib/libsundials_idas.a stan/lib/stan_math/lib/sundials_5.2.0/lib/libsundials_kinsol.a  stan/lib/stan_math/lib/tbb/libtbb.dylib stan/lib/stan_math/lib/tbb/libtbbmalloc.dylib stan/lib/stan_math/lib/tbb/libtbbmalloc_proxy.dylib -o /Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem

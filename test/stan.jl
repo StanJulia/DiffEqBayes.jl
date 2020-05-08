@@ -71,7 +71,7 @@ priors = [truncated(Normal(1.0,1),0.1,2),truncated(Normal(1.5,0.5),0.1,1.5),
 bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000, nchains=4,
                                 num_warmup=1000,vars =(DiffEqBayes.StanODEData(),InverseGamma(4,1)))
 sdf  = CmdStan.read_summary(bayesian_result.model)
-@test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1.5 atol=1e-1
-@test sdf[sdf.parameters .== :theta2, :mean][1] ≈ 1.0 atol=1e-1
-@test sdf[sdf.parameters .== :theta3, :mean][1] ≈ 3.0 atol=1e-1
-@test sdf[sdf.parameters .== :theta4, :mean][1] ≈ 1.0 atol=1e-1
+@test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1.5 atol=4e-1
+@test sdf[sdf.parameters .== :theta2, :mean][1] ≈ 1.0 atol=4e-1
+@test sdf[sdf.parameters .== :theta3, :mean][1] ≈ 3.0 atol=4e-1
+@test sdf[sdf.parameters .== :theta4, :mean][1] ≈ 1.0 atol=4e-1
