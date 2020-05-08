@@ -1,7 +1,7 @@
 using CmdStan, DiffEqBayes, OrdinaryDiffEq, ParameterizedFunctions,
       RecursiveArrayTools, Distributions, Random, Test
 
-# Uncomment for local testing only, make sure MCMCChains is available
+# Uncomment for local testing only, make sure MCMCChains and StatsPlots are available
 using MCMCChains, StatsPlots
 
 #Random.seed!(123)
@@ -32,7 +32,7 @@ sdf  = CmdStan.read_summary(bayesian_result.model)
 chn = CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
 plot(chn)
 !isdir("tmp") && mkdir("tmp")
-savefig("$(@__DIR__)/tmp/one_parameter_case.png")
+savefig("$(@__DIR__)/tmp/one_par_case_01.png")
 
 v1 = [sdf[sdf.parameters .== Symbol("u_hat[$i,1]"), :mean][1] for i in 1:10]
 v2 = [sdf[sdf.parameters .== Symbol("u_hat[$i,2]"), :mean][1] for i in 1:10]
@@ -52,7 +52,7 @@ title!("Preditors u_hat 89% quantiles")
 plot!(v2, lab="pred", xlab="time", ylab="preditors", color=:darkblue)
 
 plot(p1, p2, layout=(2,1))
-savefig("$(@__DIR__)/tmp/one_par_pred_prey.png")
+savefig("$(@__DIR__)/tmp/one_par_pred_prey_01.png")
 
 println("\nFour parameter case\n")
 f1 = @ode_def begin
@@ -81,7 +81,7 @@ sdf  = CmdStan.read_summary(bayesian_result.model)
 # Uncomment for local chain inspection
 chn = CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:mcmcchains))
 plot(chn)
-savefig("$(@__DIR__)/tmp/four_parameter_case.png")
+savefig("$(@__DIR__)/tmp/four_par_case.png")
 
 v1 = [sdf[sdf.parameters .== Symbol("u_hat[$i,1]"), :mean][1] for i in 1:10]
 v2 = [sdf[sdf.parameters .== Symbol("u_hat[$i,2]"), :mean][1] for i in 1:10]
