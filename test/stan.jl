@@ -22,7 +22,7 @@ bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
 sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1.5 atol=3e-1
 
-
+#=
 priors = [Normal(1.,0.5),Normal(1.,0.5),Normal(1.5,0.5)]
 bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
                                  num_warmup=1000,likelihood=Normal,sample_u0=true)
@@ -50,6 +50,7 @@ bayesian_result = stan_inference(prob1,t,data,priors;num_samples=2000,
 sdf  = CmdStan.read_summary(bayesian_result.model)
 @test sdf[sdf.parameters .== :theta1, :mean][1] ≈ 1. atol=3e-1
 @test sdf[sdf.parameters .== :theta2, :mean][1] ≈ 1.5 atol=3e-1
+=#
 
 println("Four parameter case")
 f1 = @ode_def begin
