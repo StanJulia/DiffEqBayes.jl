@@ -2,11 +2,12 @@ using CmdStan, DiffEqBayes, OrdinaryDiffEq, ParameterizedFunctions,
       RecursiveArrayTools, Distributions, Random, Test
 
 # Uncomment for local testing only, make sure MCMCChains is available
-using MCMCChains
+using MCMCChains, StatsPlots
 
-Random.seed!(123)
+#Random.seed!(123)
+cd(@__DIR__)
 
-println("One parameter case")
+println("\nOne parameter case\n")
 f1 = @ode_def begin
   dx = a*x - x*y
   dy = -3y + x*y
@@ -33,7 +34,27 @@ plot(chn)
 !isdir("tmp") && mkdir("tmp")
 savefig("$(@__DIR__)/tmp/one_parameter_case.png")
 
-println("Four parameter case")
+v1 = [sdf[sdf.parameters .== Symbol("u_hat[$i,1]"), :mean][1] for i in 1:10]
+v2 = [sdf[sdf.parameters .== Symbol("u_hat[$i,2]"), :mean][1] for i in 1:10]
+qa_prey = zeros(10, 3);
+qa_pred = zeros(10, 3);
+achn = Array(chn);
+for i in 1:10
+  qa_prey[i, :] = quantile(achn[:, 4+i], [0.055, 0.5, 0.945])
+  qa_pred[i, :] = quantile(achn[:, 14+i], [0.055, 0.5, 0.945])
+end
+p1 = plot(1:10, v1; ribbon=(qa_prey[:, 1], qa_prey[:, 3]), color=:lightgrey, leg=false)
+title!("Prey u_hat 89% quantiles")
+plot!(v1, lab="prey", xlab="time", ylab="prey", color=:darkred)
+
+p2 = plot(1:10, v2; ribbon=(qa_pred[:, 1], qa_pred[:, 3]), color=:lightgrey, leg=false)
+title!("Preditors u_hat 89% quantiles")
+plot!(v2, lab="pred", xlab="time", ylab="preditors", color=:darkblue)
+
+plot(p1, p2, layout=(2,1))
+savefig("$(@__DIR__)/tmp/one_par_pred_prey.png")
+
+println("\nFour parameter case\n")
 f1 = @ode_def begin
   dx = a*x - b*x*y
   dy = -c*y + d*x*y
@@ -62,4 +83,23 @@ chn = CmdStan.convert_a3d(bayesian_result.chains, bayesian_result.cnames, Val(:m
 plot(chn)
 savefig("$(@__DIR__)/tmp/four_parameter_case.png")
 
+v1 = [sdf[sdf.parameters .== Symbol("u_hat[$i,1]"), :mean][1] for i in 1:10]
+v2 = [sdf[sdf.parameters .== Symbol("u_hat[$i,2]"), :mean][1] for i in 1:10]
+qa_prey = zeros(10, 3);
+qa_pred = zeros(10, 3);
+achn = Array(chn);
+for i in 1:10
+  qa_prey[i, :] = quantile(achn[:, 10+i], [0.055, 0.5, 0.945])
+  qa_pred[i, :] = quantile(achn[:, 20+i], [0.055, 0.5, 0.945])
+end
+p1 = plot(1:10, v1; ribbon=(qa_prey[:, 1], qa_prey[:, 3]), color=:lightgrey, leg=false)
+title!("Prey u_hat 89% quantiles")
+plot!(v1, lab="prey", xlab="time", ylab="prey", color=:darkred)
+
+p2 = plot(1:10, v2; ribbon=(qa_pred[:, 1], qa_pred[:, 3]), color=:lightgrey, leg=false)
+title!("Preditors u_hat 89% quantiles")
+plot!(v2, lab="pred", xlab="time", ylab="preditors", color=:darkblue)
+
+plot(p1, p2, layout=(2,1))
+savefig("$(@__DIR__)/tmp/four_par_pred_prey.png")
 

@@ -18,7 +18,7 @@ functions {
     real[] sho(real t,real[] internal_var___u,real[] internal_var___p,real[] x_r,int[] x_i) {
   real internal_var___du[2];
   internal_var___du[1] = internal_var___u[1] * internal_var___p[1] - internal_var___u[1] * internal_var___u[2] * internal_var___p[2];
-  internal_var___du[2] = internal_var___u[2] * -(internal_var___p[3]) + internal_var___u[1] * internal_var___u[2] * internal_var___p[4];
+  internal_var___du[2] = -1 * internal_var___u[2] * internal_var___p[3] + internal_var___u[1] * internal_var___u[2] * internal_var___p[4];
   return internal_var___du;
 }
 
@@ -50,4 +50,8 @@ functions {
     for (t in 1:T){
       internal_var___u[t,:] ~ normal(u_hat[t,1:2],sigma1);
       }
+  }
+  generated quantities{
+    real u_hat[T,2];
+    u_hat = integrate_ode_rk45(sho, u0, t0, ts, theta, x_r, x_i, 0.001, 1.0e-6, 100000);
   }

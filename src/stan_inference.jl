@@ -162,8 +162,14 @@ function stan_inference(prob::DiffEqBase.DEProblem,t,data,priors = nothing;alg=:
       internal_var___u[t,:] ~ $stan_likelihood($tuple_hyper_params);
       }
   }
+  generated quantities{
+    real u_hat[T,2];
+    u_hat = integrate_ode_rk45(sho, u0, t0, ts, theta, x_r, x_i, 0.001, 1.0e-6, 100000);
+  }
+
+
   "
-  stanmodel = CmdStan.Stanmodel(num_samples=num_samples, num_warmup=num_warmup, name="parameter_estimation_model", model=parameter_estimation_model, nchains=nchains, printsummary = printsummary)
+  stanmodel = CmdStan.Stanmodel(num_samples=num_samples, num_warmup=num_warmup, name="pem", model=parameter_estimation_model, nchains=nchains, printsummary = printsummary)
   parameter_estimation_data = Dict("u0"=>prob.u0, "T" => length(t), "internal_var___u" => view(data, :, 1:length(t))', "t0" => prob.tspan[1], "ts" => t)
   return_code, chains, cnames = CmdStan.stan(stanmodel, [parameter_estimation_data]; CmdStanDir=CMDSTAN_HOME)
   return StanModel(stanmodel, return_code, chains, cnames)

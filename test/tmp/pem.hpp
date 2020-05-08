@@ -100,6 +100,8 @@ static const std::vector<string> locations_array__ = {" (found before start of p
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 43, column 22 to column 40)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 43, column 40 to column 58)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 43, column 58 to column 76)",
+                                                      " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 55, column 4 to column 20)",
+                                                      " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 56, column 4 to column 88)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 46, column 4 to column 20)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 47, column 4 to column 33)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 48, column 37 to column 40)",
@@ -141,7 +143,7 @@ static const std::vector<string> locations_array__ = {" (found before start of p
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 2, column 54 to line 16, column 1)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 19, column 2 to column 28)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 20, column 2 to column 133)",
-                                                      " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 21, column 2 to column 136)",
+                                                      " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 21, column 2 to column 138)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 22, column 2 to column 27)",
                                                       " (in '/Users/rob/.julia/dev/DiffEqBayes/test/tmp/pem.stan', line 18, column 92 to line 23, column 1)"};
 
@@ -157,30 +159,30 @@ bin_search(const T0__& x, const int& min_val, const int& max_val,
   try {
     int range;
     
-    current_statement__ = 36;
+    current_statement__ = 38;
     range = (((max_val - min_val) + 1) / 2);
     int mid_pt;
     
-    current_statement__ = 37;
+    current_statement__ = 39;
     mid_pt = (min_val + range);
     int out;
     
-    current_statement__ = 47;
+    current_statement__ = 49;
     while (logical_gt(range, 0)) {
-      current_statement__ = 45;
+      current_statement__ = 47;
       if (logical_eq(x, mid_pt)) {
-        current_statement__ = 42;
+        current_statement__ = 44;
         out = mid_pt;
-        current_statement__ = 43;
+        current_statement__ = 45;
         range = 0;
       } else {
-        current_statement__ = 39;
+        current_statement__ = 41;
         range = ((range + 1) / 2);
-        current_statement__ = 40;
+        current_statement__ = 42;
         mid_pt = (logical_gt(x, mid_pt) ? (mid_pt + range) : (mid_pt - range));
       }
     }
-    current_statement__ = 48;
+    current_statement__ = 50;
     return out;
   } catch (const std::exception& e) {
     stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -214,22 +216,22 @@ sho(const T0__& t, const std::vector<T1__>& internal_var___u,
   (void) propto__;
   
   try {
-    current_statement__ = 50;
+    current_statement__ = 52;
     validate_non_negative_index("internal_var___du", "2", 2);
     std::vector<local_scalar_t__> internal_var___du;
     internal_var___du = std::vector<local_scalar_t__>(2, 0);
     
-    current_statement__ = 51;
+    current_statement__ = 53;
     assign(internal_var___du, cons_list(index_uni(1), nil_index_list()),
       ((internal_var___u[(1 - 1)] * internal_var___p[(1 - 1)]) -
         ((internal_var___u[(1 - 1)] * internal_var___u[(2 - 1)]) *
           internal_var___p[(2 - 1)])), "assigning variable internal_var___du");
-    current_statement__ = 52;
+    current_statement__ = 54;
     assign(internal_var___du, cons_list(index_uni(2), nil_index_list()),
-      ((internal_var___u[(2 - 1)] * -internal_var___p[(3 - 1)]) +
+      (((-1 * internal_var___u[(2 - 1)]) * internal_var___p[(3 - 1)]) +
         ((internal_var___u[(1 - 1)] * internal_var___u[(2 - 1)]) *
           internal_var___p[(4 - 1)])), "assigning variable internal_var___du");
-    current_statement__ = 53;
+    current_statement__ = 55;
     return internal_var___du;
   } catch (const std::exception& e) {
     stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -281,23 +283,23 @@ class pem_model : public model_base_crtp<pem_model> {
     try {
       
       pos__ = 1;
-      current_statement__ = 29;
+      current_statement__ = 31;
       validate_non_negative_index("u0", "2", 2);
       context__.validate_dims("data initialization","u0","double",
           context__.to_vec(2));
       u0 = std::vector<double>(2, 0);
       
-      current_statement__ = 29;
+      current_statement__ = 31;
       assign(u0, nil_index_list(), context__.vals_r("u0"),
         "assigning variable u0");
       context__.validate_dims("data initialization","T","int",
           context__.to_vec());
       
-      current_statement__ = 30;
+      current_statement__ = 32;
       T = context__.vals_i("T")[(1 - 1)];
-      current_statement__ = 31;
+      current_statement__ = 33;
       validate_non_negative_index("internal_var___u", "T", T);
-      current_statement__ = 31;
+      current_statement__ = 33;
       validate_non_negative_index("internal_var___u", "2", 2);
       context__.validate_dims("data initialization","internal_var___u",
           "double",context__.to_vec(T, 2));
@@ -305,49 +307,49 @@ class pem_model : public model_base_crtp<pem_model> {
       
       {
         std::vector<local_scalar_t__> internal_var___u_flat__;
-        current_statement__ = 31;
+        current_statement__ = 33;
         assign(internal_var___u_flat__, nil_index_list(),
           context__.vals_r("internal_var___u"),
           "assigning variable internal_var___u_flat__");
-        current_statement__ = 31;
+        current_statement__ = 33;
         pos__ = 1;
-        current_statement__ = 31;
+        current_statement__ = 33;
         for (size_t sym1__ = 1; sym1__ <= 2; ++sym1__) {
-          current_statement__ = 31;
+          current_statement__ = 33;
           for (size_t sym2__ = 1; sym2__ <= T; ++sym2__) {
-            current_statement__ = 31;
+            current_statement__ = 33;
             assign(internal_var___u,
               cons_list(index_uni(sym2__),
                 cons_list(index_uni(sym1__), nil_index_list())),
               internal_var___u_flat__[(pos__ - 1)],
               "assigning variable internal_var___u");
-            current_statement__ = 31;
+            current_statement__ = 33;
             pos__ = (pos__ + 1);}}
       }
       context__.validate_dims("data initialization","t0","double",
           context__.to_vec());
       
-      current_statement__ = 32;
+      current_statement__ = 34;
       t0 = context__.vals_r("t0")[(1 - 1)];
-      current_statement__ = 33;
+      current_statement__ = 35;
       validate_non_negative_index("ts", "T", T);
       context__.validate_dims("data initialization","ts","double",
           context__.to_vec(T));
       ts = std::vector<double>(T, 0);
       
-      current_statement__ = 33;
+      current_statement__ = 35;
       assign(ts, nil_index_list(), context__.vals_r("ts"),
         "assigning variable ts");
-      current_statement__ = 34;
+      current_statement__ = 36;
       validate_non_negative_index("x_r", "0", 0);
       x_r = std::vector<double>(0, 0);
       
-      current_statement__ = 35;
+      current_statement__ = 37;
       validate_non_negative_index("x_i", "0", 0);
       x_i = std::vector<int>(0, 0);
       
-      current_statement__ = 30;
-      current_statement__ = 30;
+      current_statement__ = 32;
+      current_statement__ = 32;
       check_greater_or_equal(function__, "T", T, 1);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -469,94 +471,94 @@ class pem_model : public model_base_crtp<pem_model> {
       assign(theta, cons_list(index_uni(4), nil_index_list()), theta4,
         "assigning variable theta");
       {
-        current_statement__ = 11;
+        current_statement__ = 13;
         validate_non_negative_index("u_hat", "T", T);
-        current_statement__ = 11;
+        current_statement__ = 13;
         validate_non_negative_index("u_hat", "2", 2);
         std::vector<std::vector<local_scalar_t__>> u_hat;
         u_hat = std::vector<std::vector<local_scalar_t__>>(T, std::vector<local_scalar_t__>(2, 0));
         
-        current_statement__ = 12;
-        lp_accum__.add(inv_gamma_log<propto__>(sigma1, 4.0, 1.0));
         current_statement__ = 14;
+        lp_accum__.add(inv_gamma_log<propto__>(sigma1, 4.0, 1.0));
+        current_statement__ = 16;
         if (logical_lt(theta[(1 - 1)], 0.1)) {
-          current_statement__ = 14;
+          current_statement__ = 16;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 13;
+          current_statement__ = 15;
           if (logical_gt(theta[(1 - 1)], 2.0)) {
-            current_statement__ = 13;
+            current_statement__ = 15;
             lp_accum__.add(stan::math::negative_infinity());
           } else {
-            current_statement__ = 13;
+            current_statement__ = 15;
             lp_accum__.add(
               -log_diff_exp(normal_cdf_log(2.0, 1.0, 1.0),
                  normal_cdf_log(0.1, 1.0, 1.0)));
           }
         }
-        current_statement__ = 15;
-        lp_accum__.add(normal_log<propto__>(theta[(1 - 1)], 1.0, 1.0));
         current_statement__ = 17;
+        lp_accum__.add(normal_log<propto__>(theta[(1 - 1)], 1.0, 1.0));
+        current_statement__ = 19;
         if (logical_lt(theta[(2 - 1)], 0.1)) {
-          current_statement__ = 17;
+          current_statement__ = 19;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 16;
+          current_statement__ = 18;
           if (logical_gt(theta[(2 - 1)], 1.5)) {
-            current_statement__ = 16;
+            current_statement__ = 18;
             lp_accum__.add(stan::math::negative_infinity());
           } else {
-            current_statement__ = 16;
+            current_statement__ = 18;
             lp_accum__.add(
               -log_diff_exp(normal_cdf_log(1.5, 1.5, 0.5),
                  normal_cdf_log(0.1, 1.5, 0.5)));
           }
         }
-        current_statement__ = 18;
-        lp_accum__.add(normal_log<propto__>(theta[(2 - 1)], 1.5, 0.5));
         current_statement__ = 20;
+        lp_accum__.add(normal_log<propto__>(theta[(2 - 1)], 1.5, 0.5));
+        current_statement__ = 22;
         if (logical_lt(theta[(3 - 1)], 0.1)) {
-          current_statement__ = 20;
+          current_statement__ = 22;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 19;
+          current_statement__ = 21;
           if (logical_gt(theta[(3 - 1)], 4.0)) {
-            current_statement__ = 19;
+            current_statement__ = 21;
             lp_accum__.add(stan::math::negative_infinity());
           } else {
-            current_statement__ = 19;
+            current_statement__ = 21;
             lp_accum__.add(
               -log_diff_exp(normal_cdf_log(4.0, 2.0, 1.0),
                  normal_cdf_log(0.1, 2.0, 1.0)));
           }
         }
-        current_statement__ = 21;
-        lp_accum__.add(normal_log<propto__>(theta[(3 - 1)], 2.0, 1.0));
         current_statement__ = 23;
+        lp_accum__.add(normal_log<propto__>(theta[(3 - 1)], 2.0, 1.0));
+        current_statement__ = 25;
         if (logical_lt(theta[(4 - 1)], 0.1)) {
-          current_statement__ = 23;
+          current_statement__ = 25;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 22;
+          current_statement__ = 24;
           if (logical_gt(theta[(4 - 1)], 2.0)) {
-            current_statement__ = 22;
+            current_statement__ = 24;
             lp_accum__.add(stan::math::negative_infinity());
           } else {
-            current_statement__ = 22;
+            current_statement__ = 24;
             lp_accum__.add(
               -log_diff_exp(normal_cdf_log(2.0, 1.3, 0.5),
                  normal_cdf_log(0.1, 1.3, 0.5)));
           }
         }
-        current_statement__ = 24;
+        current_statement__ = 26;
         lp_accum__.add(normal_log<propto__>(theta[(4 - 1)], 1.3, 0.5));
-        current_statement__ = 25;
+        current_statement__ = 27;
         assign(u_hat, nil_index_list(),
           integrate_ode_rk45(sho_functor__(), u0, t0, ts, theta, x_r, x_i,
             pstream__, 0.001, 1.0e-6, 100000), "assigning variable u_hat");
-        current_statement__ = 28;
+        current_statement__ = 30;
         for (size_t t = 1; t <= T; ++t) {
-          current_statement__ = 26;
+          current_statement__ = 28;
           lp_accum__.add(
             normal_log<propto__>(
               rvalue(internal_var___u,
@@ -665,6 +667,20 @@ class pem_model : public model_base_crtp<pem_model> {
       if (logical_negation(emit_generated_quantities__)) {
         return ;
       } 
+      current_statement__ = 11;
+      validate_non_negative_index("u_hat", "T", T);
+      current_statement__ = 11;
+      validate_non_negative_index("u_hat", "2", 2);
+      std::vector<std::vector<double>> u_hat;
+      u_hat = std::vector<std::vector<double>>(T, std::vector<double>(2, 0));
+      
+      current_statement__ = 12;
+      assign(u_hat, nil_index_list(),
+        integrate_ode_rk45(sho_functor__(), u0, t0, ts, theta, x_r, x_i,
+          pstream__, 0.001, 1.0e-6, 100000), "assigning variable u_hat");
+      for (size_t sym1__ = 1; sym1__ <= 2; ++sym1__) {
+        for (size_t sym2__ = 1; sym2__ <= T; ++sym2__) {
+          vars__.push_back(u_hat[(sym2__ - 1)][(sym1__ - 1)]);}}
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
       // Next line prevents compiler griping about no return
@@ -755,6 +771,7 @@ class pem_model : public model_base_crtp<pem_model> {
     names__.push_back("theta3");
     names__.push_back("theta4");
     names__.push_back("theta");
+    names__.push_back("u_hat");
     } // get_param_names() 
     
   void get_dims(std::vector<std::vector<size_t>>& dimss__) const {
@@ -772,6 +789,11 @@ class pem_model : public model_base_crtp<pem_model> {
     dimss__.push_back(dims__);
     dims__.resize(0);
     dims__.push_back(4);
+    dimss__.push_back(dims__);
+    dims__.resize(0);
+    dims__.push_back(T);
+    
+    dims__.push_back(2);
     dimss__.push_back(dims__);
     dims__.resize(0);
     
@@ -797,7 +819,13 @@ class pem_model : public model_base_crtp<pem_model> {
     }
     
     if (emit_generated_quantities__) {
-      
+      for (size_t sym1__ = 1; sym1__ <= 2; ++sym1__) {
+        {
+          for (size_t sym2__ = 1; sym2__ <= T; ++sym2__) {
+            {
+              param_names__.push_back(std::string() + "u_hat" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+            }}
+        }}
     }
     
     } // constrained_param_names() 
@@ -822,20 +850,26 @@ class pem_model : public model_base_crtp<pem_model> {
     }
     
     if (emit_generated_quantities__) {
-      
+      for (size_t sym1__ = 1; sym1__ <= 2; ++sym1__) {
+        {
+          for (size_t sym2__ = 1; sym2__ <= T; ++sym2__) {
+            {
+              param_names__.push_back(std::string() + "u_hat" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+            }}
+        }}
     }
     
     } // unconstrained_param_names() 
     
   std::string get_constrained_sizedtypes() const {
     stringstream s__;
-    s__ << "[{\"name\":\"sigma1\",\"type\":{\"name\":\"vector\",\"length\":" << 2 << "},\"block\":\"parameters\"},{\"name\":\"theta1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta2\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta3\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta4\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" << 4 << ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"}]";
+    s__ << "[{\"name\":\"sigma1\",\"type\":{\"name\":\"vector\",\"length\":" << 2 << "},\"block\":\"parameters\"},{\"name\":\"theta1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta2\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta3\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta4\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" << 4 << ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"u_hat\",\"type\":{\"name\":\"array\",\"length\":" << T << ",\"element_type\":{\"name\":\"array\",\"length\":" << 2 << ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"generated_quantities\"}]";
     return s__.str();
     } // get_constrained_sizedtypes() 
     
   std::string get_unconstrained_sizedtypes() const {
     stringstream s__;
-    s__ << "[{\"name\":\"sigma1\",\"type\":{\"name\":\"vector\",\"length\":" << 2 << "},\"block\":\"parameters\"},{\"name\":\"theta1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta2\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta3\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta4\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" << 4 << ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"}]";
+    s__ << "[{\"name\":\"sigma1\",\"type\":{\"name\":\"vector\",\"length\":" << 2 << "},\"block\":\"parameters\"},{\"name\":\"theta1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta2\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta3\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta4\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" << 4 << ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"u_hat\",\"type\":{\"name\":\"array\",\"length\":" << T << ",\"element_type\":{\"name\":\"array\",\"length\":" << 2 << ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"generated_quantities\"}]";
     return s__.str();
     } // get_unconstrained_sizedtypes() 
     
